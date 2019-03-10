@@ -98,10 +98,31 @@ def test_guest_can_enter_false?()
   assert_equal(false, @caraokeroom.guest_can_enter?(@guest1, @caraokeroom))
 end
 
-def test_play_fav_song()
-  result = @guest1.fav_song
-  assert_equal("Would?", result)
+def test_has_fav_song__true()
+
+  result = @caraokeroom.has_fav_song(@guest1)
+  assert_equal(true, result)
 end
 
+def test_has_fav_song__false()
+
+  result = @caraokeroom.has_fav_song(@guest6)
+  assert_equal(false, result)
+end
+
+#
+def test_play_song_returns_song
+   @caraokeroom.has_fav_song(@guest1)
+   input = @guest1.fav_song
+  result =  @caraokeroom.play_song(@guest1, input)
+  assert_equal(@guest1.fav_song, result)
+end
+#
+# def test_play_song__no_song
+#    @caraokeroom.has_fav_song(@guest6)
+#    input = @guest6.fav_song
+#   result =  @caraokeroom.play_song(@guest6, input)
+#   assert_equal(false, result)
+# end
 
 end

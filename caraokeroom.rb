@@ -24,14 +24,33 @@ class Caraokeroom < Room
         puts "Welcome to #{caraokeroom.name}"
         return true
      else
-      puts "You can choose room2"
-      return false
+        return false
     end
+      puts "Perhaps you could wait in bar"
   end
 
-  def play_fav_song(guest)
-
-        @list.find{|song| song == guest.fav_song}
-   end
-
+  def has_fav_song(guest)
+  for song in @list
+    if song.title == guest.fav_song
+      return true
+    end
+  end
+  return false
 end
+
+
+   def play_song(guest, input)
+      print "Please enter song name: "
+            input = gets.chomp
+        if input == guest.fav_song && has_fav_song(guest)
+
+        print "The next song is #{guest.fav_song}"
+        return guest.fav_song
+
+        else print "Don't have song"
+          return false
+      end
+    end
+
+
+   end

@@ -22,7 +22,7 @@ class BarroomTest < MiniTest::Test
     list = [@song1, @song2, @song3, @song4]
     guests = [@guest1, @guest2, @guest3, @guest4]
     drinks =[ @drink1, @drink2, @drink3, @drink4]
-    @drink1 = Drink.new("Corona", 3.0, 2)
+    @drink1 = Drink.new("Corona", 3.0, 8)
     @drink2 = Drink.new("Malbec", 5.0, 3)
     @drink3 = Drink.new("Coke", 2.0, 0)
     @drink4 = Drink.new("Tequila", 2.50, 2)
@@ -53,10 +53,7 @@ class BarroomTest < MiniTest::Test
     assert_equal(18, @barroom.drinking_age())
   end
 
-    # 
-    # def test_bar_has_drinks
-    #   assert_equal(,  @barroom.drinks())
-    # end
+
 
     def test_amount_of_drinks
       assert_equal(4, @barroom.drinks.length)
@@ -74,10 +71,56 @@ class BarroomTest < MiniTest::Test
     assert_equal(35.00, @guest2.money)
     end
 
+    def test_serve_drink__not_enough_money()
+    @barroom.drinks.include?(@drink2)
+    @guest2.buy_drink(@drink2)
+    @guest2.buy_drink(@drink2)
+    @guest2.buy_drink(@drink2)
+    @guest2.buy_drink(@drink2)
+    @guest2.buy_drink(@drink2)
+    @guest2.buy_drink(@drink2)
+    @guest2.buy_drink(@drink2)
+    @guest2.buy_drink(@drink2)
+    assert_equal(0.00, @guest2.money)
+    end
+
+
+        def test_serve_drink__bladder()
+        @barroom.drinks.include?(@drink2)
+        @guest2.buy_drink(@drink2)
+        @guest2.buy_drink(@drink2)
+        @guest2.buy_drink(@drink2)
+        @guest2.buy_drink(@drink2)
+        @guest2.buy_drink(@drink2)
+        @guest2.buy_drink(@drink2)
+        @guest2.buy_drink(@drink2)
+        @guest2.buy_drink(@drink2)
+        assert_equal(24, @guest2.bladder_fulness)
+        end
+
 def test_add_guest()
     @barroom.add_guest(@guest5)
       assert_equal(5, @barroom.guests.length)
 end
+
+def test_guest_leave_room_full_bladder__true
+  @guest2.buy_drink(@drink1)
+  @guest2.buy_drink(@drink1)
+  @guest2.buy_drink(@drink1)
+  @guest2.buy_drink(@drink1)
+  assert_equal(true, @barroom.guests.include?(@guest2))
+  @barroom.guest_leave_room_full_bladder(@guest2)
+  assert_equal(false, @barroom.guests.include?(@guest2))
+  end
+
+
+  def test_guest_leave_room_full_bladder__false
+    @guest2.buy_drink(@drink1)
+    @guest2.buy_drink(@drink1)
+    assert_equal(true, @barroom.guests.include?(@guest2))
+    @barroom.guest_leave_room_full_bladder(@guest2)
+    assert_equal(true, @barroom.guests.include?(@guest2))
+    end
 
 def test_guest_leave_room()
     @barroom.guests.delete(@guest5)

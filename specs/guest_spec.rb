@@ -30,6 +30,9 @@ class GuestTest < MiniTest::Test
     assert_equal(22, @guest.age())
   end
 
+  def test_guest_has_bladder_fulnesss?
+    assert_equal(0, @guest.bladder_fulness())
+  end
   #
   def test_guest_can_pay_fee?()
   caraokeroom = Caraokeroom.new("RockBar", [], 10, [])

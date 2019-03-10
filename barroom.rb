@@ -14,9 +14,11 @@ class Barroom < Room
 
   end
 
+
   def amount_of_drinks
     return @drinks.length
   end
+
 
   def serve_drink(drink, guest)
     return if guest.age >= @drinking_age
@@ -24,6 +26,13 @@ class Barroom < Room
     if @drinks.include?(drink)
     guest.buy_drink(drink)
     @till += drink.price()
+   end
+ end
+
+ def guest_leave_room_full_bladder(guest)
+   if guest.bladder_fulness >= 25
+     print "I am off to loo"
+     leave_room(guest)
    end
  end
 
