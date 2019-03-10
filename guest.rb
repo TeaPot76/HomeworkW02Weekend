@@ -6,12 +6,23 @@ class Guest
     @money = money
     @age = age
     @fav_song = fav_song
-    @fav_drink = nil
+    @fav_drink = []
+    @bladder_fulness = 0
   end
 
 def guest_can_pay_fee?(caraokeroom)
-  return @money >= caraokeroom.fee
+    @money >= caraokeroom.fee
   end
 
+ def guest_can_afford_drink?(drink)
+     @money >= drink.price
+ end
+
+  def buy_drink(drink)
+    if guest_can_afford_drink?(drink)
+      @money -= drink.price()
+      @bladder_fulness += drink.quantity()
+    end
+  end
 
 end

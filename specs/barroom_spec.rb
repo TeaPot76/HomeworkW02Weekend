@@ -2,6 +2,7 @@ require("minitest/autorun")
 require('minitest/rg')
 require_relative("../barroom")
 require_relative("../room")
+require_relative("../drink")
 require_relative("../song")
 require_relative("../guest")
 require_relative("../caraokeroom")
@@ -20,8 +21,12 @@ class BarroomTest < MiniTest::Test
     @guest4 = Guest.new("Luca", 80.00, "Whisky in the Jar", 25)
     list = [@song1, @song2, @song3, @song4]
     guests = [@guest1, @guest2, @guest3, @guest4]
-    @drinks = ["beer", "coke"]
-    @barroom = Barroom.new("DrinkingPad", guests, @drinks)
+    drinks =[ @drink1, @drink2, @drink3, @drink4]
+    @drink1 = Drink.new("Corona", 3.0, 2)
+    @drink2 = Drink.new("Malbec", 5.0, 3)
+    @drink3 = Drink.new("Coke", 2.0, 0)
+    @drink4 = Drink.new("Tequila", 2.50, 2)
+    @barroom = Barroom.new("DrinkingPad", guests, drinks)
     @guest5 = Guest.new("Zita", 70.00, "BlaBla", 27)
     @guest6 = Guest.new("Bob", 70.00, "BlaBla", 28)
     guests2 = [@guest1, @guest2, @guest3, @guest4, @guest5, @guest6]
@@ -41,25 +46,33 @@ class BarroomTest < MiniTest::Test
   end
 
   def test_bar_has_till
-    assert_equal(200.0, @barroom.till())
+    assert_equal(200.00, @barroom.till())
   end
 
   def test_bar_has_drinking_age
     assert_equal(18, @barroom.drinking_age())
   end
 
-    def test_bar_has_drunkness
-      assert_equal(15, @barroom.drunkness())
-    end
-
-    def test_bar_has_drinks
-      assert_equal(["beer", "coke"], @barroom.drinks())
-    end
+    # 
+    # def test_bar_has_drinks
+    #   assert_equal(,  @barroom.drinks())
+    # end
 
     def test_amount_of_drinks
-      assert_equal(2, @drinks.length)
+      assert_equal(4, @barroom.drinks.length)
     end
 
+    def test_serve_drink()
+    @guest2.buy_drink(@drink2)
+    assert_equal(205.00, @barroom.till )
+    end
+
+    def test_serve_drink()
+    # @guest2.fav_drink = "Malbec"
+    @barroom.drinks.include?(@drink2)
+    @guest2.buy_drink(@drink2)
+    assert_equal(35.00, @guest2.money)
+    end
 
 def test_add_guest()
     @barroom.add_guest(@guest5)
@@ -88,10 +101,6 @@ def test_guest_leave_room()
     @barroom.leave_room(@guest5)
     assert_equal(4, @barroom.guests.length())
 end
- def test_serve_drink()
-     @guest1.fav_drink = "beer"
-     result = @barroom.serve_drink(@drinks, @guest1)
-     assert_equal("beer", result)
- end
+
 
 end

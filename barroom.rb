@@ -1,13 +1,14 @@
 require_relative("./room")
 class Barroom < Room
 
-  attr_reader :name, :guests, :drinks, :drunkness, :drinking_age, :till
+  attr_reader :name, :guests, :drunkness, :drinking_age, :till
+  attr_accessor :drinks
   def initialize(name, guests, drinks)
     super(name, guests)
     # @name = name
     # @guests = guests
     @drinks = drinks
-    @till = 200
+    @till = 200.00
     @drunkness = 15
     @drinking_age = 18
 
@@ -18,8 +19,12 @@ class Barroom < Room
   end
 
   def serve_drink(drink, guest)
-
-        @drinks.find{|drink| drink == guest.fav_drink}
+    return if guest.age >= @drinking_age
+    guest.guest_can_afford_drink?(drink)
+    if @drinks.include?(drink)
+    guest.buy_drink(drink)
+    @till += drink.price()
    end
+ end
 
 end
