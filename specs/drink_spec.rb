@@ -3,14 +3,12 @@ require('minitest/rg')
 require_relative("../drink")
 require_relative("../barroom")
 require_relative("../room")
-
 require_relative("../guest")
 require_relative("../caraokeroom")
 
 class DrinkTest < MiniTest::Test
 
   def setup
-    @drinks =[ @drink1, @drink2, @drink3, @drink4]
     @drink = Drink.new("Corona", 3.0, 2)
   end
 

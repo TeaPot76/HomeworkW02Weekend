@@ -13,7 +13,7 @@ class SongTest < MiniTest::Test
     assert_equal("Would?", @song.title())
   end
 
-  def test_song_has_author
+  def test_song_has_performer
     assert_equal("Alice in Chains", @song.performer())
   end
 end

@@ -32,97 +32,90 @@ class CaraokeroomTest < MiniTest::Test
   end
 
   def test_room_has_guest
-    assert_equal(4, @caraokeroom.guests.length())
-  end
-  def test_room_length
-    assert_equal(4, @caraokeroom.guests.length())
+    assert_equal(4, @caraokeroom.number_of_guests())
   end
 
   def test_room_has_fee
     assert_equal(10, @caraokeroom.fee())
   end
-#
-    def test_has_list()
-      assert_equal([@song1, @song2, @song3, @song4], @caraokeroom.list())
-    end
-#   #
+
+  def test_has_list()
+    assert_equal([@song1, @song2, @song3, @song4], @caraokeroom.list())
+  end
+
   def test_number_of_songs()
     @caraokeroom.list.length
    assert_equal(4, @caraokeroom.list.length)
   end
-#
- def test_add_song()
-  @caraokeroom.add_song(@song5)
-  assert_equal(5, @caraokeroom.list.length)
-end
 
-def test_add_guest()
- @caraokeroom.add_guest(@guest5)
- assert_equal(5, @caraokeroom.guests.length)
-end
+  def test_add_song()
+    @caraokeroom.add_song(@song5)
+    assert_equal(true, @caraokeroom.list.include?(@song5))
+    assert_equal(5, @caraokeroom.list.length)
+  end
 
-def test_guest_leave_room()
-   @caraokeroom.guests.delete(@guest5)
-  assert_equal(4, @caraokeroom.guests.length())
-end
-def test_room_full__returns_true
-  @caraokeroom.add_guest(@guest6)
-  @caraokeroom.add_guest(@guest7)
-  @caraokeroom.add_guest(@guest8)
- assert_equal(true, @caraokeroom.room_full?)
-end
+  def test_add_guest()
+   @caraokeroom.add_guest(@guest5)
+   assert_equal(5, @caraokeroom.number_of_guests)
+  end
 
-def test_room_full__returns_false
-  @caraokeroom.guests.delete(@guest3)
-  @caraokeroom.guests.delete(@guest2)
-  @caraokeroom.guests.delete(@guest1)
+  def test_guest_leave_room()
+     @caraokeroom.leave_room(@guest4)
+    assert_equal(3, @caraokeroom.number_of_guests())
+  end
 
- assert_equal(false, @caraokeroom.room_full?)
-end
+  def test_room_full__returns_true
+    @caraokeroom.add_guest(@guest6)
+    @caraokeroom.add_guest(@guest7)
+    @caraokeroom.add_guest(@guest8)
+    assert_equal(true, @caraokeroom.room_full?)
+  end
 
-def test_guest_can_pay_fee?()
-# caraokeroom = Caraokeroom.new("Bar!", [], 10, [])
-assert_equal(true, @guest1.guest_can_pay_fee?(@caraokeroom))
-end
+  def test_room_full__returns_false
+    @caraokeroom.guests.delete(@guest3)
+    @caraokeroom.guests.delete(@guest2)
+    @caraokeroom.guests.delete(@guest1)
+    assert_equal(false, @caraokeroom.room_full?)
+  end
 
-def test_guest_can_enter?()
-  @caraokeroom.add_guest(@guest6)
-  assert_equal(true, @caraokeroom.guest_can_enter?(@guest1, @caraokeroom))
-end
+  def test_guest_can_pay_fee?()
+    assert_equal(true, @guest1.guest_can_pay_fee?(@caraokeroom))
+  end
 
-def test_guest_can_enter_false?()
-  @caraokeroom.add_guest(@guest6)
-  @caraokeroom.add_guest(@guest7)
-  @caraokeroom.add_guest(@guest8)
-  @caraokeroom.add_guest(@guest9)
-  assert_equal(false, @caraokeroom.guest_can_enter?(@guest1, @caraokeroom))
-end
+  def test_guest_can_enter?()
+    assert_equal(true, @caraokeroom.guest_can_enter?(@guest1, @caraokeroom))
+  end
 
-def test_has_fav_song__true()
+  def test_guest_can_enter_false_too_full()
+    @caraokeroom.add_guest(@guest6)
+    @caraokeroom.add_guest(@guest7)
+    @caraokeroom.add_guest(@guest8)
+    @caraokeroom.add_guest(@guest9)
+    assert_equal(false, @caraokeroom.guest_can_enter?(@guest1, @caraokeroom))
+  end
 
-  result = @caraokeroom.has_fav_song(@guest1)
-  assert_equal(true, result)
-end
+  def test_has_fav_song__true()
+    result = @caraokeroom.has_fav_song(@guest1)
+    assert_equal(true, result)
+  end
 
-def test_has_fav_song__false()
+  def test_has_fav_song__false()
+    result = @caraokeroom.has_fav_song(@guest6)
+    assert_equal(false, result)
+  end
 
-  result = @caraokeroom.has_fav_song(@guest6)
-  assert_equal(false, result)
-end
+  def test_play_song_returns_song
+     @caraokeroom.has_fav_song(@guest1)
+     input = @guest1.fav_song
+     result =  @caraokeroom.play_song(@guest1, input)
+     assert_equal(@guest1.fav_song, result)
+  end
 
-#
-def test_play_song_returns_song
-   @caraokeroom.has_fav_song(@guest1)
-   input = @guest1.fav_song
-  result =  @caraokeroom.play_song(@guest1, input)
-  assert_equal(@guest1.fav_song, result)
-end
-#
-# def test_play_song__no_song
-#    @caraokeroom.has_fav_song(@guest6)
-#    input = @guest6.fav_song
-#   result =  @caraokeroom.play_song(@guest6, input)
-#   assert_equal(false, result)
-# end
+  # def test_play_song__no_song
+  #   @caraokeroom.has_fav_song(@guest6)
+  #   input = @guest6.fav_song
+  #   result =  @caraokeroom.play_song(@guest6, input)
+  #   assert_equal(false, result)
+  # end
 
 end

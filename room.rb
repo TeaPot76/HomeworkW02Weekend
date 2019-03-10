@@ -1,25 +1,25 @@
 class Room
-  attr_reader :name, :guests, :fee, :list
+  attr_reader :name
   def initialize(name, guests)
     @name = name
     @guests = guests
-
   end
 
-  def guests_length
-    returns @guests_length
+  def number_of_guests
+    return @guests.length
   end
 
   def add_guest(guest)
     @guests << guest
   end
-   def leave_room(guest)
+
+  def leave_room(guest)
      result = @guests.delete(guest)
      return result
-   end
+  end
 
   def room_full?
      return @guests.length >= 7
   end
 
-  end
+end

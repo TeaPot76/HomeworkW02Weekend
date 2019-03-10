@@ -32,41 +32,32 @@ class RoomTest < MiniTest::Test
     assert_equal("Bar", @room2.name())
   end
 
-  def test_room_has_guest
-    assert_equal(4, @room2.guests.length())
-  end
-  def test_room_length
-    assert_equal(4, @room2.guests.length())
+  def test_number_of_guests
+    assert_equal(4, @room2.number_of_guests())
   end
 
-def test_add_guest()
- @room.add_guest(@guest5)
- assert_equal(5, @room.guests.length)
-end
+  def test_add_guest()
+    @room.add_guest(@guest5)
+    assert_equal(5, @room.number_of_guests())
+  end
 
-def test_guest_leave_room()
-   @room.guests.delete(@guest5)
-  assert_equal(4, @room.guests.length())
-end
-def test_room_full__returns_true
-  @room.add_guest(@guest6)
-  @room.add_guest(@guest7)
-  @room.add_guest(@guest8)
- assert_equal(true, @room.room_full?)
-end
+  def test_guest_leave_room()
+    @room.leave_room(@guest3)
+    assert_equal(3, @room.number_of_guests())
+  end
 
-def test_room_full__returns_false
-  @room.guests.delete(@guest3)
-  @room.guests.delete(@guest2)
-  @room.guests.delete(@guest1)
+  def test_room_full__returns_true
+    @room.add_guest(@guest6)
+    @room.add_guest(@guest7)
+    @room.add_guest(@guest8)
+    assert_equal(true, @room.room_full?)
+  end
 
- assert_equal(false, @room.room_full?)
-end
-
-def test_guest_leave_room()
-  @room.leave_room(@guest5)
-  assert_equal(4, @room.guests.length())
-end
-
+  def test_room_full__returns_false
+    @room.leave_room(@guest3)
+    @room.leave_room(@guest2)
+    @room.leave_room(@guest1)
+    assert_equal(false, @room.room_full?)
+  end
 
 end
